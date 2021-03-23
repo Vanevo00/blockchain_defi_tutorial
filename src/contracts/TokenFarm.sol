@@ -5,7 +5,6 @@ import "./DaiToken.sol";
 
 contract TokenFarm {
     string public name = "Dapp Token Farm";
-    string public kokos = "Dva kokosy";
     DappToken public dappToken;
     DaiToken public daiToken;
 
