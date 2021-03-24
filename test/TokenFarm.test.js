@@ -72,6 +72,20 @@ contract('TokenFarm', ([appAccount, investorAccount]) => {
             assert.equal(result.toString(), convertEtherToWei('100'), 'investor DappToken balance correct after staking')
 
             await tokenFarm.issueTokens({ from: investorAccount }).should.be.rejected;
+
+            await tokenFarm.unstakeTokens({from: investorAccount })
+
+            result = await daiToken.balanceOf(investorAccount)
+            assert.equal(result.toString(), convertEtherToWei('100'), 'investor DaiToken balance correct after unstaking')
+
+            result = await daiToken.balanceOf(tokenFarm.address)
+            assert.equal(result.toString(), convertEtherToWei('0'), 'Token Farm DaiToken balance correct after u unstaking')
+
+            result = await tokenFarm.stakingBalance(investorAccount)
+            assert.equal(result.toString(), convertEtherToWei('0'), 'investor staking balance 0 after unstaking')
+
+            result = await tokenFarm.isStaking(investorAccount)
+            assert.equal(result, false, 'investor isStaking status correct after unstaking')
         })
     })
 })
