@@ -1,14 +1,29 @@
 import React, { Component } from 'react'
+import Web3 from 'web3'
 import Navbar from './Navbar'
 import './App.css'
 
 class App extends Component {
-
   constructor(props) {
     super(props)
     this.state = {
       account: '0x0'
     }
+  }
+
+  async loadWeb3() {
+    if (window.ethereum) {
+      window.web3 = new Web3(window.ethereum)
+      await window.ethereum.enable()
+    } else if (window.web3) {
+      window.web3 = new Web3(window.web3.currentProvider)
+    } else {
+      window.alert('Non-Ethereum browser detected. Please install MetaMask or other accessing Ethereum!')
+    }
+  }
+
+  async componentWillMount() {
+    await this.loadWeb3()
   }
 
   render() {
